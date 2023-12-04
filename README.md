@@ -1,4 +1,4 @@
-# Note.IO PROJECT
+# Note.io PROJECT
 
 ---
 

@@ -60,12 +60,7 @@ const Login = () => {
           </MotionDiv>
         </div>
         <MotionDiv variants={item} className="relative">
-          <Lottie
-            animationData={noteAnimation}
-            style={lottieStyle}
-            loop={10}
-            aria-aria-labelledby="lottie note animation"
-          />
+          <Lottie animationData={noteAnimation} style={lottieStyle} loop={10} />
           <div className="absolute rounded-full h-80 w-80 bg-primary top-0 -left-6 right-0 bottom-0 translate-x-1/3 translate-y-1/3 -z-10"></div>
         </MotionDiv>
       </MotionDiv>
@@ -101,7 +96,7 @@ const Login = () => {
           </MotionDiv>
           <MotionDiv variants={item}>
             <div className="flex justify-start gap-2 items-center text-sm">
-              <span className="">Don't have account?</span>
+              <span className="">Dont have account?</span>
               <Link href={"/"}>
                 <span className=" italic underline">Sign up</span>
               </Link>
