@@ -71,7 +71,10 @@ export function AutoLoginUser() {
         </SheetHeader>
         <div className="flex flex-col gap-10 mt-10">
           {userLogin.slice(0, 7).map((user) => (
-            <div className="flex items-center gap-2 justify-between">
+            <div
+              key={user.userId}
+              className="flex items-center gap-2 justify-between"
+            >
               <div className="flex items-center gap-5">
                 <Label htmlFor="name" className="flex flex-col gap-y-2 ">
                   Username : <span>{user.username}</span>
