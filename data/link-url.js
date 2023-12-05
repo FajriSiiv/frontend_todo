@@ -20,9 +20,9 @@ export const linkUrl = [
     icon: <FolderLock />,
   },
   {
-    name: "Trash",
-    url: "/deleted",
+    name: "Favorite",
+    url: "/favorite",
     id: "4",
-    icon: <Trash2 />,
+    icon: <FolderHeart />,
   },
 ];

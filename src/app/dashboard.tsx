@@ -5,8 +5,8 @@ import React, { useEffect, useState } from "react";
 
 const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [userId, setUserId] = useState<any>();
   const [datas, setDatas] = useState<any>();
-  const usernameId = localStorage.getItem("userId");
 
   const createNewTodo = async () => {};
 
@@ -14,7 +14,7 @@ const Dashboard = () => {
     setIsLoading(true);
 
     try {
-      const data = await fetchTodo(usernameId);
+      const data = await fetchTodo(userId);
 
       setDatas(data);
       setIsLoading(false);
@@ -24,8 +24,10 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
+    const usernameId = localStorage.getItem("userId");
+    setUserId(usernameId);
     fetchData();
-  }, [usernameId]);
+  }, [userId]);
 
   useEffect(() => {
     console.log(datas);

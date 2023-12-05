@@ -17,7 +17,7 @@
 
 - Dashboard = /
 - Login = /login
-- Trash = /deleted
+- Favorite = /favorite
 
 ## Done
 
