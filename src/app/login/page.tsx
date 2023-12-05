@@ -3,16 +3,23 @@ import { ModeToggle } from "@/components/toggleDark";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Lottie from "lottie-react";
 import noteAnimation from "../../img/note-animation.json";
 import Link from "next/link";
 import { MotionDiv } from "@/components/motionDiv";
+import { useParams, useRouter } from "next/navigation";
+import { userLogin } from "../../../data/user";
+import { useToast } from "@/components/ui/use-toast";
+import { Toaster } from "@/components/ui/toaster";
+import { GithubToolTip } from "@/components/layout/Navbar";
+import { AutoLoginUser } from "./autoLogin";
 
 const Login = () => {
-  const lottieStyle = {
-    height: 500,
-  };
+  const { toast } = useToast();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const router = useRouter();
 
   const container = {
     hidden: { opacity: 0, y: 20 },
@@ -34,11 +41,52 @@ const Login = () => {
     },
   };
 
+  const checkLogin = (usernameInput: string, passwordInput: string) => {
+    const matchedUser = userLogin.find(
+      (user: any) => user.username === usernameInput
+    );
+
+    if (matchedUser?.password === passwordInput) {
+      localStorage.setItem("authenticated", "true");
+      localStorage.setItem("username", username);
+      localStorage.setItem("userId", matchedUser.userId.toString());
+
+      toast({
+        title: "Login succesfully",
+        description: "Thank you for visiting my website",
+        style: {
+          background: "#80ed99",
+        },
+      });
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
+    } else {
+      router.push("/login");
+      toast({
+        title: "Login Failed",
+        description: "Check your password or username",
+        style: {
+          background: "#ef233c",
+          color: "#ffffff",
+        },
+      });
+    }
+  };
+
+  const loginButton = async (e: any) => {
+    e.preventDefault();
+    checkLogin(username, password);
+  };
+
   return (
     <main className="grid grid-cols-2 relative overflow-hidden">
-      <div className="absolute top-5 right-5">
+      <div className="absolute top-5 right-5 flex gap-3">
+        <AutoLoginUser />
+        <GithubToolTip />
         <ModeToggle />
       </div>
+
       <MotionDiv
         variants={container}
         initial="hidden"
@@ -60,7 +108,7 @@ const Login = () => {
           </MotionDiv>
         </div>
         <MotionDiv variants={item} className="relative">
-          <Lottie animationData={noteAnimation} style={lottieStyle} loop={10} />
+          <Lottie animationData={noteAnimation} className="h-[500px]" />
           <div className="absolute rounded-full h-80 w-80 bg-primary top-0 -left-6 right-0 bottom-0 translate-x-1/3 translate-y-1/3 -z-10"></div>
         </MotionDiv>
       </MotionDiv>
@@ -70,7 +118,10 @@ const Login = () => {
         animate="visible"
         className="flex justify-center items-center h-screen"
       >
-        <form className="flex flex-col gap-3 border-2 p-5 rounded-sm w-[400px]">
+        <form
+          onSubmit={loginButton}
+          className="flex flex-col gap-3 border-2 p-5 rounded-sm w-[400px]"
+        >
           <h1 className="text-3xl text-center uppercase font-extrabold">
             Login
           </h1>
@@ -78,32 +129,43 @@ const Login = () => {
             <Label>Username</Label>
           </MotionDiv>
           <MotionDiv variants={item}>
-            <Input type="text" required placeholder="your username..." />
+            <Input
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              type="text"
+              required
+              placeholder="your username..."
+            />
           </MotionDiv>
           <MotionDiv variants={item}>
             <Label>Password</Label>
           </MotionDiv>
           <MotionDiv variants={item}>
             <Input
-              type="text"
+              type="password"
               required
-              placeholder="your username..."
+              placeholder="your password..."
               className=" mb-3"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </MotionDiv>
           <MotionDiv variants={item}>
-            <Button className="w-full">Sign In</Button>
+            <Button className="w-full" type="submit">
+              Sign In
+            </Button>
           </MotionDiv>
           <MotionDiv variants={item}>
             <div className="flex justify-start gap-2 items-center text-sm">
               <span className="">Dont have account?</span>
-              <Link href={"/"}>
+              <Link href={"/login"}>
                 <span className=" italic underline">Sign up</span>
               </Link>
             </div>
           </MotionDiv>
         </form>
       </MotionDiv>
+      <Toaster />
     </main>
   );
 };

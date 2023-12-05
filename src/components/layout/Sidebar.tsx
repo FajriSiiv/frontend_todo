@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { usePathname } from "next/navigation.js";
 import React from "react";
 import { linkUrl } from "../../../data/link-url.js";
 
@@ -25,14 +26,20 @@ const item = {
 };
 
 const Sidebar = () => {
+  const router = usePathname();
+
+  if (router === "/login") {
+    return null;
+  }
+
   return (
     <div className="flex-1 flex flex-col mt-5">
       <motion.ul variants={container} initial="hidden" animate="visible">
         {linkUrl.map((link: any) => (
-          <Link href={"/"} key={link.id}>
+          <Link href={link.url} key={link.id}>
             <motion.li
               variants={item}
-              className="h-12 flex items-center gap-10 justify-start pl-10 text-base font-semibold hover:bg-orange-300 hover:dark:text-black hover:dark:bg-primary rounded-tr-full rounded-br-full"
+              className="h-12 flex items-center gap-10 justify-start pl-10 text-base font-semibold hover:bg-primary hover:text-white hover:dark:bg-primary rounded-tr-full rounded-br-full transition-all"
             >
               {link.icon}
               {link.name}

@@ -1,6 +1,6 @@
 "use client";
-import { Bookmark, Heart, Save, Trash2 } from "lucide-react";
-import React from "react";
+import { Bookmark, Save } from "lucide-react";
+import React, { useState } from "react";
 import { Button } from "../ui/button";
 import {
   DialogClose,
@@ -14,14 +14,10 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { useToast } from "../ui/use-toast";
 
-const ModalNote = (props: any) => {
+const NewModalNote = (props: any) => {
+  const [titleVal, setTitleVal] = useState("");
+  const [contentNote, setContentNote] = useState("");
   const { toast } = useToast();
-
-  const deleteNote = () => {
-    toast({
-      title: "Delete completed",
-    });
-  };
 
   const saveNote = async () => {
     toast({
@@ -33,11 +29,18 @@ const ModalNote = (props: any) => {
     <DialogContent>
       <DialogHeader>
         <DialogTitle className="w-5/6">
-          <Input value={props.title ?? "your title..."} />
+          <Input
+            value={titleVal}
+            onChange={(e) => setTitleVal(e.target.value)}
+          />
         </DialogTitle>
       </DialogHeader>
       <DialogDescription>
-        <Textarea className="max-h-[500px]" value={props.description} />
+        <Textarea
+          value={contentNote}
+          onChange={(e) => setContentNote(e.target.value)}
+          className="h-[400px] resize-none"
+        />
       </DialogDescription>
       <DialogFooter className="flex !justify-between">
         <Button className="hover:bg-yellow-500">
@@ -47,19 +50,9 @@ const ModalNote = (props: any) => {
         <div className="flex gap-2">
           <DialogClose>
             <Button
-              className="bg-rose-500 flex gap-2 items-center"
-              onClick={() => {
-                deleteNote();
-              }}
-            >
-              <Trash2 />
-              Delete
-            </Button>
-          </DialogClose>
-          <DialogClose>
-            <Button
               className="bg-emerald-500 flex gap-2 items-center hover:bg-white hover:text-emerald-500 border-2 hover:border-emerald-500"
               onClick={() => saveNote()}
+              disabled={titleVal !== "" ? false : true}
             >
               <Save />
               Save
@@ -71,4 +64,4 @@ const ModalNote = (props: any) => {
   );
 };
 
-export default ModalNote;
+export default NewModalNote;

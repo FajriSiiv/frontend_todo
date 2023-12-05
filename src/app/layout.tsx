@@ -1,6 +1,8 @@
+import ButtonNewModal from "@/components/buttonNewModal";
 import Navbar from "@/components/layout/Navbar";
 import Sidebar from "@/components/layout/Sidebar";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./global.css";
@@ -28,9 +30,11 @@ export default function RootLayout({
         >
           <Navbar />
           <div className="flex">
+            <ButtonNewModal />
             <Sidebar />
-            <div className="flex-[4] px-5 py-3">{children}</div>
+            <div className="flex-[4]">{children}</div>
           </div>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
